@@ -25,12 +25,12 @@ int main(int argc,char* argv[])
         std::cout << "Your input is wrong! Please try again!" << std::endl;
         exit(1);
     }
-    int result = violent_match(text.c_str(),pattern.c_str());
-    if(result == -1){
+    int pos = violent_match(text.c_str(),pattern.c_str());
+    if(pos == -1){
         std::cout << "The pattern is not in text!" << std::endl;
     }
     else{
-        std::cout << "The pattern pos is:" << result << std::endl;
+        std::cout << "The pattern pos is:" << pos << std::endl;
     }
     return 0;
 }
