@@ -20,9 +20,14 @@ void build_next(const char* p,int* next)
     next[j] = k;
     while(j < plen){
         if(k == -1 || p[k] == p[j]){
-            next[j + 1] = k + 1;
             ++k;
             ++j;
+            if(p[k] == p[j]){
+                next[j] = next[k];
+            }
+            else{
+                next[j] = k;
+            }  
         }
         else{
             k = next[k];
