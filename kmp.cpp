@@ -38,13 +38,22 @@ int main(int argc,char* argv[])
     std::cin >> text;
     std::cout << "Please input the Pattern:";
     std::cin >> pattern;
+    if(pattern.empty() || pattern.empty()){
+        std::cout << "The string can not be empty!" << std::endl;
+        exit(1);
+    }
+    if(pattern.size() > text.size()){
+        std::cout << "Error! The pattern is more than text!" << std::endl;
+        exit(1);
+    }
     int* next = new int[pattern.size()];
-    build_next(pattern.c_str(),next);
+    build_next(&pattern[0],next);
+    std::cout << "Next Array:";
     for(int i = 0;i < pattern.size(); ++i){
         cout << next[i] << " ";
     }
     std::cout << endl;
-    int pos = kmp_search(text.c_str(),pattern.c_str(),next);
+    int pos = kmp_search(&text[0],&pattern[0],next);
     if(pos == -1){
         std::cout << "Sorry can't found!" << std::endl;
     }
