@@ -16,6 +16,7 @@ using namespace std;
 const int PATTERN_NUM = 4;
 const int MAX_STATE = 20;
 const int ALP = 26; 
+const char a = 'a';
 int _GOTO_TABLE[MAX_STATE][ALP];
 int _FAIL_TABLE[MAX_STATE];
 std::set<string> _out[MAX_STATE];
@@ -30,14 +31,30 @@ void read_pattern(vector<string>& pattern_vec)
         pattern_vec.push_back(tmp);
     }   
 }
-void build_fail_table(const vector<string>&)
+
+void build_fail_table(const vector<string>& pattern_vec)
 {
-        
+    unsigned int t = 0;
+    unsigned int m = 0;
+    unsigned int last_state = 0;
+    unsigned int s[20];
+    string::const_iterator sit1;
+    string::const_iterator sit2;
+    string::const_iterator sit3;
+    for(vector<string>::const_iterator piter = pattern_vec.begin() \
+        ;piter != pattern_vec.end(); ++piter){
+        t = 0;
+        m = 0;
+        sit1 = piter->begin();
+        while(sit1 != piter->end() && _GOTO_TABLE[t][*sit1 - a] != 0){
+            t = _GOTO_TABLE[t][*sit1 - a];                 
+            ++sit1;
+        }
+    }       
 }
 
 void build_goto_table(const vector<string>& pattern_vec)
 {
-    const char a = 'a';
     int used_state = 0;
     for(vector<string>::const_iterator piter = pattern_vec.begin();piter != pattern_vec.end(); ++piter){
         string::const_iterator sit = piter->begin();
