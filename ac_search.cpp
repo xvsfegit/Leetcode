@@ -37,7 +37,7 @@ void build_fail_table(const vector<string>& pattern_vec)
     unsigned int t = 0;
     unsigned int m = 0;
     unsigned int last_state = 0;
-    unsigned int s[20];
+    unsigned int state[20];
     string::const_iterator sit1;
     string::const_iterator sit2;
     string::const_iterator sit3;
@@ -49,8 +49,40 @@ void build_fail_table(const vector<string>& pattern_vec)
         while(sit1 != piter->end() && _GOTO_TABLE[t][*sit1 - a] != 0){
             t = _GOTO_TABLE[t][*sit1 - a];                 
             ++sit1;
+            state[m++] = t; 
+        }
+        for(sit1 = piter->begin() + 1;sit1 != piter->end(); ++sit1){
+            for(sit2 = piter->begin() + 1; sit2 != sit1 + 1; ++sit2){
+                t = 0;
+                sit3 = sit2;
+                while(sit3 != sit1 + 1 && _GOTO_TABLE[t][*sit3 -a] != 0){
+                    t = _GOTO_TABLE[t][*sit3 - a];
+                    ++sit3;
+                }
+                if(sit3 == sit1 + 1){
+                    last_state = state[sit3 - (piter->begin()) - 1];
+                    if(_FAIL_TABLE[last_state] == 0){
+                        _FAIL_TABLE[last_state] = t;
+                    }
+                    if(!_out[last_state].empty() && !_out[t].empty()){
+                        for(set<string>::const_iterator siter = _out[t].begin() \
+                            ;siter != _out[t].end(); ++siter){
+                            _out[last_state].insert(*siter);
+                        }    
+                    }
+                }
+            }
         }
     }       
+#ifdef DEBUG
+    cout << "****************FAIL TABLE INFO***************" << endl;
+    for(int i = 0;i < MAX_STATE; ++i){
+        if(_FAIL_TABLE[i] != 0){
+            cout <<"state_"<< i << ":" << _FAIL_TABLE[i] << endl;
+        }
+    }
+    cout << "****************FAIL TABLE INFO***************" << endl;
+#endif
 }
 
 void build_goto_table(const vector<string>& pattern_vec)
@@ -71,12 +103,15 @@ void build_goto_table(const vector<string>& pattern_vec)
         _out[t].insert(*piter);
     }
 #ifdef DEBUG
+    cout << "****************GOTO TABLE INFO***************" << endl;
     for(int i = 0;i < MAX_STATE; ++i){
         for(int j = 0;j < ALP; ++j){
             cout << _GOTO_TABLE[i][j] << " ";
         }
         cout << endl;
     }
+    cout << "****************GOTO TABLE INFO***************" << endl;
+    cout << "****************OUT TABLE INFO***************" << endl;
     for(int i = 0;i != MAX_STATE; ++i){
         int len = _out[i].size();
         if(len != 0){
@@ -88,6 +123,7 @@ void build_goto_table(const vector<string>& pattern_vec)
             cout << endl;
         }
     }
+    cout << "****************OUT TABLE INFO***************" << endl;
 #endif
     
 }
@@ -98,6 +134,7 @@ int main(int argc,char* argv[])
     vector<string> pattern_vec;
     read_pattern(pattern_vec);
     build_goto_table(pattern_vec);
+    build_fail_table(pattern_vec);
     return 0;
 }
 
