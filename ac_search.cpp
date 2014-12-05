@@ -11,15 +11,17 @@
 #include<vector>
 #include<set>
 #include<memory.h>
+#include<map>
 
 using namespace std;
 const int PATTERN_NUM = 100;
-const int MAX_STATE = 20;
+const int MAX_STATE = 100;
 const int ALP = 26; 
 const char a = 'a';
-int _GOTO_TABLE[MAX_STATE][ALP];
-int _FAIL_TABLE[MAX_STATE];
-std::set<string> _out[MAX_STATE];
+unsigned int _GOTO_TABLE[MAX_STATE][ALP];
+unsigned int _FAIL_TABLE[MAX_STATE];
+std::map<int,set<string> > _out;
+//std::set<string> _out[MAX_STATE];
 
 
 void read_pattern(vector<string>& pattern_vec)
@@ -99,6 +101,7 @@ void build_fail_table(const vector<string>& pattern_vec)
 void build_goto_table(const vector<string>& pattern_vec)
 {
     int used_state = 0;
+    set<string> tmp;
     for(vector<string>::const_iterator piter = pattern_vec.begin();piter != pattern_vec.end(); ++piter){
         string::const_iterator sit = piter->begin();
         int t = 0;
