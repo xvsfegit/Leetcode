@@ -13,7 +13,7 @@
 #include<memory.h>
 
 using namespace std;
-const int PATTERN_NUM = 4;
+const int PATTERN_NUM = 100;
 const int MAX_STATE = 20;
 const int ALP = 26; 
 const char a = 'a';
@@ -24,12 +24,23 @@ std::set<string> _out[MAX_STATE];
 
 void read_pattern(vector<string>& pattern_vec)
 {
-    cout << "Please input the pattern:" << endl;
+    set<string> test;
+    cout << "Please input the pattern eof is end :" << endl;
     string tmp;
     for(int i=0;i < PATTERN_NUM; ++i){
         cin >> tmp;
+        if(tmp == "eof"){
+            break;
+        }
         pattern_vec.push_back(tmp);
     }   
+#ifdef DEBUG
+    cout << "****************PATTERN INFO***************" << endl;
+    for(int i = 0;i != pattern_vec.size(); ++i){
+        cout << i << ":" << pattern_vec[i] << endl;
+    }
+    cout << "****************PATTERN INFO***************" << endl;
+#endif
 }
 
 void build_fail_table(const vector<string>& pattern_vec)
@@ -37,7 +48,7 @@ void build_fail_table(const vector<string>& pattern_vec)
     unsigned int t = 0;
     unsigned int m = 0;
     unsigned int last_state = 0;
-    unsigned int state[20];
+    unsigned int state[100];
     string::const_iterator sit1;
     string::const_iterator sit2;
     string::const_iterator sit3;
@@ -125,7 +136,40 @@ void build_goto_table(const vector<string>& pattern_vec)
     }
     cout << "****************OUT TABLE INFO***************" << endl;
 #endif
-    
+}
+void ac_search(const string& text)
+{
+    int t = 0;
+    set<string> match_res;
+    string::const_iterator siter = text.begin();  
+    while(siter != text.end()){
+        if(t == 0){
+            if(_GOTO_TABLE[t][*siter -a] == 0){
+                ++siter;
+                continue;
+            }
+        }
+        if(_GOTO_TABLE[t][*siter - a] == 0){
+            t = _FAIL_TABLE[t];
+            while(t != 0 && _GOTO_TABLE[t][*siter - a] == 0){
+                t = _FAIL_TABLE[t];    
+            }
+        }
+        t = _GOTO_TABLE[t][*siter - a];
+        ++siter;
+        if(_out[t].size()){
+            for(set<string>::const_iterator iter = _out[t].begin(); \
+                iter != _out[t].end(); ++iter){
+                match_res.insert(*iter);
+            }
+        }
+    }
+    cout << "The match pattern:";
+    for(set<string>::const_iterator iter = match_res.begin();\
+        iter != match_res.end(); ++iter){
+        cout << *iter << ",";
+    }
+    cout << endl;
 }
 
 int main(int argc,char* argv[])
@@ -135,6 +179,10 @@ int main(int argc,char* argv[])
     read_pattern(pattern_vec);
     build_goto_table(pattern_vec);
     build_fail_table(pattern_vec);
+    string text;
+    cout << "Please input the text:" << endl;
+    cin >> text;
+    ac_search(text);
     return 0;
 }
 
