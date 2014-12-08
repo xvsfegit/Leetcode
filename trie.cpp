@@ -14,8 +14,12 @@ const int MAX = 26;
 const char a = 'a';
 struct trie_node{
     bool is_str;
+    unsigned int count;
     string current_string;
     trie_node* next[MAX];
+    trie_node():count(0)
+    {
+    }
 };
 
 int read_pattern(vector<string>& pattern_vec)
@@ -45,6 +49,7 @@ trie_node* create_trie(const vector<string>& pattern_vec)
                 current_node->next[pos] = new trie_node;     
             }
             current_node = current_node->next[pos];
+            ++(current_node->count);
         }     
         current_node->is_str = true;
         current_node->current_string = *piter;
