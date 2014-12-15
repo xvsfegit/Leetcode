@@ -32,18 +32,19 @@ int test_atoi(const char* str)
         return 0;
     }
     long long res = 0;
+    int tmp = 0;
     while('0' <= *str && *str <= '9'){
-        int tmp = *str - '0';
+        tmp = *str - '0';
         if(flag){
            tmp = -tmp; 
         }
         res = res * 10 + tmp;
-        if(res > MAX_INT)
-            return MAX_INT;
-        if(res < MIN_INT)
-            return MIN_INT;
         ++str;
     }
+    if(res > MAX_INT)
+        return MAX_INT;
+    if(res < MIN_INT)
+        return MIN_INT;
     return res;
     
 }
