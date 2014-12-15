@@ -10,15 +10,23 @@
 #include<stdlib.h>
 using namespace std;
 int reverse(int x){
-    const int MAX = 9;
     const int MAX_INT = 2147483647;
     const int MIN_INT = -2147483648;
 
     if(x == 0){
         return x;
     }
-     
-    return x;
+    int n = 0;
+    int y = 0;
+    while(x != 0){
+        n = x % 10;
+        if(y > MAX_INT/10 || y < MIN_INT/10){
+            return 0;
+        }
+        y = y * 10 + n;
+        x = x / 10;
+    }
+    return y;
 }
 int main(int argc,char* argv[])
 {
