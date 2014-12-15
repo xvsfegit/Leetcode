@@ -11,6 +11,9 @@ using namespace std;
 
 int test_atoi(const char* str)
 {
+    if(str == NULL || *str == '\0'){
+        return 0;
+    }
     const int MAX_INT = 2147483647;
     const int MIN_INT = -2147483648;
     bool flag = false;
@@ -29,17 +32,17 @@ int test_atoi(const char* str)
         return 0;
     }
     long long res = 0;
-    int count = 0;
     while('0' <= *str && *str <= '9'){
-        res = res * 10 + (*str - '0');
-        if(res >= MAX_INT)
+        int tmp = *str - '0';
+        if(flag){
+           tmp = -tmp; 
+        }
+        res = res * 10 + tmp;
+        if(res > MAX_INT)
             return MAX_INT;
-        if(res <= MIN_INT)
+        if(res < MIN_INT)
             return MIN_INT;
         ++str;
-    }
-    if(flag){
-        res = -res;
     }
     return res;
     
