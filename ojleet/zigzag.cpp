@@ -40,6 +40,12 @@ string convert(const string& s,int nRows)
 }
 int main(int argc,char* argv[])
 {
-    cout << convert("PAYPALISHIRING",4) << endl;
+    cout << "Please input the text:";
+    string text;
+    cin >> text;
+    cout << "Please input the n:";
+    int n = 0;
+    cin >> n;
+    cout << convert(text,n) << endl;
     return 0;
 }
