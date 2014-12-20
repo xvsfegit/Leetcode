@@ -25,30 +25,37 @@ string longestCommonPre(const vector<string>& strs)
     int max_pre = 0;
     for(int i = 1;i < vec_len; ++i){
         count = 0;
-        if(tmp[0] != strs[i][0]){
-            return "";
-        }
-        ++count;
-        for(int j = 1;j < tmp.size()&& j < strs[i].size(); ++j){
+        for(int j = 0;j < tmp.size() && j < strs[i].size();){
             if(tmp[j] == strs[i][j]){
                 ++count; 
             }
-            else if(count > max_pre){
+            else if(count < max_pre){
                 max_pre = count;
             }
+            ++j;
         }        
+        if(count == strs[i].size()){
+            if(i == 1){
+                max_pre = count;
+            }
+            else if(max_pre > count){
+                max_pre = count;
+            }
+        }
     }
     string result(&tmp[0],max_pre);
     return result;
 }
 
 
-int main()
+int main(int argc,char* argv[])
 {
     string tmp;
     vector<string> strs;
-    while(tmp != "eof"){
+    while(1){
         cin >> tmp;
+        if(tmp == "eof")
+            break;
         strs.push_back(tmp);
     } 
     cout << longestCommonPre(strs) << endl;
