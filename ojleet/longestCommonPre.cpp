@@ -26,7 +26,7 @@ string longestCommonPre(const vector<string>& strs)
     for(int i = 1;i < vec_len; ++i){
         count = 0;
         for(int j = 0;j < tmp.size() && j < strs[i].size();){
-            if(tmp[j] == strs[i][j]){
+            if(tmp[j] == strs[i][j] || i == 1){
                 ++count; 
             }
             else if(count < max_pre){
