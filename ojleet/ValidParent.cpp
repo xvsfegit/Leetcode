@@ -13,6 +13,7 @@ using namespace std;
 bool isValid(string& s)
 {
     stack<char> c_stack;
+    bool flag = false;
     for(int i = 0;i < s.size(); ++i){
         switch(s[i]){
             case '(':
@@ -22,15 +23,30 @@ bool isValid(string& s)
                 continue;
             default:
             {
-                if(c_stack.top() == s[i])
-                    c_stack.pop();
-                else
+                if(c_stack.size() == 0){
                     return false;
-                continue;
+                }            
+                flag = true;
+                char tmp = c_stack.top();
+                if(s[i] == '}' && tmp == '{'){
+                    c_stack.pop();
+                }
+                else if(s[i] == ']' && tmp == '['){
+                    c_stack.pop();            
+                }
+                else if(s[i] == ')' && tmp == '('){
+                    c_stack.pop();             
+                }
+                else{
+                    return false;
+                }
             }
+                           
         }
     }
-    return true;
+    if(c_stack.empty())
+        return true && flag;
+    return false;
 }
 int main(int argc,char* argv[])
 {
