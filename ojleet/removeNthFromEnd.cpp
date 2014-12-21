@@ -14,7 +14,7 @@ struct ListNode{
 };
 ListNode* removeNthFromEnd(ListNode* head,int n)
 {
-    if(head == NULL)
+    if(head == NULL || n == 0)
         return head;
     ListNode* hopeEnd = head;
     int count = 0;
