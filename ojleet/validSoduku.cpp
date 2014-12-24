@@ -25,13 +25,19 @@ bool isValidSudoku(vector< vector<char> >& board)
         memset(w_flag,0,SODU * 4);
         for(int j = 0;j < SODU; ++j){
             if(i % 3 == 2){
-                memset(flag_1,0,3 * SODU * 4);
+                memset(flag_1,0,SODU * 9);
+                memset(flag_2,0,SODU * 9);
+                memset(flag_3,0,SODU * 9);
             }
             if(board[i][j] == '.')
                 continue;
             int w = board[i][j] - zero - 1;
             if(w_flag[w] == 1 || h_flag[j][w] == 1){
                 return false;
+            }
+            else{
+                h_flag[j][w] = 1;
+                w_flag[w] = 1;
             }
             if(j > 5){
                 if(flag_3[w] == 1){
@@ -51,9 +57,6 @@ bool isValidSudoku(vector< vector<char> >& board)
                 }
                 flag_2[w] = 1;
             }
-            w_flag[w] = 1;
-            h_flag[j][w] = 1;
-            
         }
     }
     return true;
