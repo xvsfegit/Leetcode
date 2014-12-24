@@ -15,17 +15,41 @@ const char zero = '0';
 
 bool isValidSudoku(vector< vector<char> >& board)
 {
-    int w_flag[SODU];
-    memset(w_flag,0,SODU);
     int h_flag[SODU][SODU];
-    memset(h_flag,0,SODU * SODU);
+    int w_flag[SODU];
+    int flag_1[SODU];
+    int flag_2[SODU];
+    int flag_3[SODU];
+    memset(h_flag,0,SODU * SODU * 4);
     for(int i = 0;i < SODU; ++i){
+        memset(w_flag,0,SODU * 4);
         for(int j = 0;j < SODU; ++j){
+            if(i % 3 == 2){
+                memset(flag_1,0,3 * SODU * 4);
+            }
             if(board[i][j] == '.')
                 continue;
             int w = board[i][j] - zero - 1;
             if(w_flag[w] == 1 || h_flag[j][w] == 1){
                 return false;
+            }
+            if(j > 5){
+                if(flag_3[w] == 1){
+                    return false;
+                }
+                flag_3[w] = 1;
+            }
+            if(2 < j && j < 6){
+                if(flag_2[w] == 1){
+                    return false;
+                }
+                flag_2[w] = 1;
+            }
+            if(j < 3){
+                if(flag_1[w] == 1){
+                    return false;
+                }
+                flag_2[w] = 1;
             }
             w_flag[w] = 1;
             h_flag[j][w] = 1;
