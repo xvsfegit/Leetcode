@@ -16,7 +16,9 @@ const char zero = '0';
 bool isValidSudoku(vector< vector<char> >& board)
 {
     int w_flag[SODU];
+    memset(w_flag,0,SODU);
     int h_flag[SODU][SODU];
+    memset(h_flag,0,SODU * SODU);
     for(int i = 0;i < SODU; ++i){
         for(int j = 0;j < SODU; ++j){
             if(board[i][j] == '.')
@@ -35,6 +37,17 @@ bool isValidSudoku(vector< vector<char> >& board)
 
 int main(int argc,char* argv[])
 {
-    
+    string tmp;
+    vector< vector<char> > board;
+    cout << "Please input the case:";
+    for(int i = 0;i < SODU; ++i){
+        cin >> tmp;
+        vector<char> vec_char;
+        for(int j = 0;j < SODU; ++j){
+            vec_char.push_back(tmp[j]);
+        }
+        board.push_back(vec_char);
+    }
+    cout << isValidSudoku(board) << endl;
     return 0;
 }
