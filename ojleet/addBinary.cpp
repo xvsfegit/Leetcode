@@ -21,7 +21,7 @@ string addBinary(string a,string b)
         int a_value = a[i] - zero;
         int b_value = b[j] - zero;
         tmp = a_value + b_value + tmp;
-        result.push_back(zero + (tmp % 2));
+        result.push_back(char(zero + (tmp % 2)));
         if(tmp >= 2){
             tmp = 1;
         }
@@ -31,22 +31,22 @@ string addBinary(string a,string b)
     }
     string& remainString = a;
     int remainLen = 0;
-    i > 0 ? remainLen = i:(remainString = b,remainLen = j);
+    i >= 0 ? remainLen = i:(remainString = b,remainLen = j);
     for(int i = remainLen;i >= 0; --i){
         tmp = tmp + remainString[i] - zero;
+        result.push_back(char(zero + (tmp % 2)));
         if(tmp > 1){
             tmp = 1;
         }
         else{
             tmp = 0;
         }
-        result.push_back(zero + (tmp % 2));
     }
     if(tmp){
-        result.push_back(tmp);
+        result.push_back(zero + tmp);
     }
-    //return result.assign(result.rbegin(),result.rend());
-    return result;
+    return result.assign(result.rbegin(),result.rend());
+    //return result;
 }
 
 int main(int argc,char* argv[])
