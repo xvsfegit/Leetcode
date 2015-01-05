@@ -16,35 +16,34 @@ struct TreeNode{
 };
 /*
  */
-int maxDepth(TreeNode* root)
+int maxDepth(TreeNode* currentNode)
 {
-    if(root == NULL){
+    if(currentNode == NULL)
         return 0;
-    }
     int maxDepth= 0;
     int layer = 0;
-    TreeNode* currentNode = root;
+    int flag = 0;
     stack<TreeNode*> remainNode;
     while(1){
-        ++layer;        
-        if(currentNode->left){
-            remainNode.push(currentNode);
-            currentNode = currentNode->left;
-            continue;
-        }
-        if(currentNode->right){
-            remainNode.push(currentNode);
+        if(currentNode == NULL){
+            if(remainNode.empty()){
+                break;
+            }    
+            layer = flag;
+            currentNode = remainNode.top();
+            remainNode.pop();
+            --flag;
             currentNode = currentNode->right;
-            continue;
         }
-        if(layer > maxDepth){
-            maxDepth = layer;
+        else{
+            ++layer;
+            if(layer > maxDepth){
+                maxDepth = layer;
+            }
+            remainNode.push(currentNode);
+            ++flag;
+            currentNode = currentNode->left;
         }
-        --layer;
-        if(remainNode.empty())
-            break;
-        currentNode = remainNode.top();
-        remainNode.pop();
     }
     return maxDepth; 
 }
@@ -52,8 +51,9 @@ int maxDepth(TreeNode* root)
 int main(int argc,char* argv[])
 {
     TreeNode* p = new TreeNode(0);
-    p->left = new TreeNode(1);
+    //p->left = new TreeNode(1);
     p->right = new TreeNode(2);
+    //p->left->left = new TreeNode(3);
     cout << maxDepth(p) << endl;
     return 0;
 }
