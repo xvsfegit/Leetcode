@@ -6,7 +6,7 @@
  ************************************************************************/
 
 #include<iostream>
-#include<stack>
+#include<queue>
 using namespace std;
 struct TreeNode{
     int val;
@@ -16,33 +16,25 @@ struct TreeNode{
 };
 /*
  */
-int maxDepth(TreeNode* currentNode)
+int maxDepth(TreeNode* root)
 {
-    if(currentNode == NULL)
+    if(root == NULL)
         return 0;
-    int maxDepth= 0;
-    int layer = 0;
-    int flag = 0;
-    stack<TreeNode*> remainNode;
-    while(1){
-        if(currentNode == NULL){
-            if(remainNode.empty()){
-                break;
-            }    
-            layer = flag;
-            currentNode = remainNode.top();
-            remainNode.pop();
-            --flag;
-            currentNode = currentNode->right;
-        }
-        else{
-            ++layer;
-            if(layer > maxDepth){
-                maxDepth = layer;
+    int maxDepth = 0;
+    queue<TreeNode*> remainNodeQ;
+    remainNodeQ.push(root);
+    while(!remainNodeQ.empty()){
+        int remianLen = remainNodeQ.size();
+        ++maxDepth;
+        while(remianLen--){
+            TreeNode* curNode = remainNodeQ.front();
+            remainNodeQ.pop();
+            if(curNode->left){
+                remainNodeQ.push(curNode->left);
             }
-            remainNode.push(currentNode);
-            ++flag;
-            currentNode = currentNode->left;
+            if(curNode->right){
+                remainNodeQ.push(curNode->right);
+            }
         }
     }
     return maxDepth; 
@@ -51,9 +43,14 @@ int maxDepth(TreeNode* currentNode)
 int main(int argc,char* argv[])
 {
     TreeNode* p = new TreeNode(0);
-    //p->left = new TreeNode(1);
+    p->left = new TreeNode(1);
     p->right = new TreeNode(2);
-    //p->left->left = new TreeNode(3);
+    p->right->left = new TreeNode(5);
+    p->right->left->right = new TreeNode(5);
+    p->right->right = new TreeNode(6);
+    p->right->right->right = new TreeNode(6);
+    p->left->left = new TreeNode(3);
+    p->left->left->left = new TreeNode(4);
     cout << maxDepth(p) << endl;
     return 0;
 }
