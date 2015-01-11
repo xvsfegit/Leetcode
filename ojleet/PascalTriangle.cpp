@@ -26,7 +26,7 @@ vector<vector<int> > generateTriangle(int numRows)
         vector<int> tmpVec;
         tmpVec.push_back(1);
         int j = 1;
-        for(;j < (i + 1)/ 2; ++j){
+        for(;j < (i / 2 + 1); ++j){
             int tmpValue = result[i - 1][j - 1] + result[i - 1][j]; 
             tmpVec.push_back(tmpValue);
         }
@@ -48,8 +48,11 @@ vector<vector<int> > generateTriangle(int numRows)
 
 int main(int argc,char* argv[])
 {
+    int nRow = 0;
+    cout << "Please input the row:";
+    cin >> nRow;
     vector<vector<int> > result;
-    result = generateTriangle(4);
+    result = generateTriangle(nRow);
     for(int i = 0;i < result.size(); ++i){
         for(int j = 0;j < result[i].size(); ++j){
             cout << result[i][j] << " ";
