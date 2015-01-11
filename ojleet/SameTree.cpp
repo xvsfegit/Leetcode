@@ -16,16 +16,21 @@ struct TreeNode{
 };
 bool isSameTree(TreeNode* p,TreeNode* q)
 {
-    if(p == NULL && q == NULL){
-        return true;
-    }
     stack<TreeNode*> p_stack;
     stack<TreeNode*> q_stack;
     while(1){
-        if(p && q == NULL){
-            return false;
+        if(p == NULL && q == NULL){
+            if(p_stack.empty()){
+                return true;
+            }
+            p = p_stack.top();
+            q = q_stack.top();
+            p_stack.pop();
+            q_stack.pop();
+            p = p->right;
+            q = q->right;
         }
-        else if(p == NULL && q){
+        else if((p && q == NULL) || (p == NULL && q)){
             return false;
         }
         else{
@@ -35,11 +40,8 @@ bool isSameTree(TreeNode* p,TreeNode* q)
                 p = p->left;
                 q = q->left;
             }
-            if(p == NULL && q == NULL){
-                p = p_stack.top();
-                p_stack.pop();
-                q = q_stack.top();
-                q_stack.pop();
+            else{
+                return false;
             }
         }
     }
@@ -48,5 +50,12 @@ bool isSameTree(TreeNode* p,TreeNode* q)
 
 int main(int argc,char* argv[])
 {
+    TreeNode* p = new TreeNode(0);
+    TreeNode* q = new TreeNode(0);
+    p->left = new TreeNode(1);
+    p->right = new TreeNode(2);
+    q->left = new TreeNode(1);
+    q->right = new TreeNode(3);
+    cout << isSameTree(p,q) << endl;
     return 0;
 }
