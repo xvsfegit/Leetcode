@@ -7,7 +7,7 @@
 
 #include<iostream>
 #include<vector>
-#include<stack>
+#include<queue>
 using namespace std;
 
 struct TreeNode{
@@ -17,15 +17,34 @@ struct TreeNode{
     TreeNode(int x):val(x),left(NULL),right(NULL){}
 };
 
+
 vector< vector<int> > levelOrder(TreeNode* root)
 {
     vector< vector<int> > result;
     if(root == NULL){
         return result;
     }
-    stack<TreeNode*> data_stack;
-    while(!data_stack.empty()){
-
+    typedef queue<TreeNode*> treeNodeStack;
+    treeNodeStack* current = new treeNodeStack;
+    treeNodeStack* next = new treeNodeStack;
+    (*next).push(root);
+    while(!((*next).empty())){
+        vector<int> tmp_vec;
+        treeNodeStack* tmp_queue = current;
+        current = next;
+        next = tmp_queue;
+        while(!((*current).empty())){
+            TreeNode* tmp = (*current).front();
+            (*current).pop();
+            tmp_vec.push_back(tmp->val);
+            if(tmp->left){
+                (*next).push(tmp->left); 
+            }
+            if(tmp->right){
+                (*next).push(tmp->right);
+            }
+        }
+        result.push_back(tmp_vec);
     }
     return result;
 }
