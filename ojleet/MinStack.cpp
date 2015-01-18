@@ -6,33 +6,71 @@
  ************************************************************************/
 
 #include<iostream>
-#include<vector>
 #include<stack>
 using namespace std;
 class MinStack{
 public:
-    int minElement;
     stack<int> intStack;
-    stack<int> mininmStack;
+    stack<int> minStack;
     void push(int x)
     {
         intStack.push(x);
+        if(minStack.empty()){
+            minStack.push(x);
+        }
+        else{
+            if(x <= minStack.top()){
+                minStack.push(x);
+            }
+        }
     }
     void pop()
     {
-        intStack.pop();
+        if(!intStack.empty()){
+            int popValue = intStack.top();
+            if(popValue == minStack.top()){
+                minStack.pop();
+            }
+            intStack.pop();
+        }
     }
     int top()
     {
+        if(intStack.empty()){
+            return 0;
+        }
         return intStack.top();  
     }
     int getMin()
     {
-        return 0;
+        if(minStack.empty()){
+            return 0;
+        }
+        else{
+            return minStack.top();
+        }
     }
 };
 int main(int argc,char* argv[])
 {
     MinStack testCase;
+    testCase.push(2147483646);
+    testCase.push(2147483646);
+    testCase.push(2147483647);
+    testCase.top();
+    testCase.pop();
+    cout << testCase.getMin() << endl;
+    testCase.pop();
+    cout << testCase.getMin() << endl;
+    testCase.pop();
+    testCase.push(2147483647);
+    testCase.top();
+    cout << testCase.getMin() << endl;
+    testCase.push(-2147483648);
+    testCase.top();
+    cout << testCase.getMin() << endl;
+    testCase.pop();
+    cout << testCase.getMin() << endl;
+
     return 0;
 }
