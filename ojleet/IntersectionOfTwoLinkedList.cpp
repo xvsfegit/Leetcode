@@ -6,6 +6,7 @@
  ************************************************************************/
 
 #include<iostream>
+#include<vector>
 using namespace std;
 struct ListNode{
     int val;
@@ -28,19 +29,30 @@ ListNode* reverseList(ListNode* head)
     return p;    
 }
 
+void getListNodeVec(vector<ListNode*>& destVec,ListNode* head)
+{
+    while(head){
+        destVec.push_back(head);
+        head = head->next;
+    } 
+}
+
 ListNode* getIntersectionNode(ListNode* headA,ListNode* headB)
 {
     if(headA == NULL || headB == NULL){
         return NULL;
     }
-    headA = reverseList(headA);
-    headB = reverseList(headB);
+    vector<ListNode*> vecA;
+    vector<ListNode*> vecB;
+    getListNodeVec(vecA,headA);
+    getListNodeVec(vecB,headB);
     ListNode* result = NULL;
-    while(headA && headB){
-        if(headA == headB){
-            headA = headA->next;
-            headB = headB->next;
-            result = headA;
+    for(int i = vecA.size(),j = vecB.size();i >= 0 && j >= 0; ++i,++j){
+        if(vecA[i] == vecB[i]){
+            result = vecA[i];
+        } 
+        else{
+            break;
         }
     }
     return result;
