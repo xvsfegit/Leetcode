@@ -7,6 +7,7 @@
 
 #include<iostream>
 #include<vector>
+#include<cmath>
 using namespace std;
 struct ListNode{
     int val;
@@ -37,25 +38,34 @@ void getListNodeVec(vector<ListNode*>& destVec,ListNode* head)
     } 
 }
 
+int getListLen(ListNode* head)
+{
+    int len = 0;
+    while(head){
+        ++len;
+        head = head->next;
+    }
+    return len;
+}
+
 ListNode* getIntersectionNode(ListNode* headA,ListNode* headB)
 {
     if(headA == NULL || headB == NULL){
         return NULL;
     }
-    vector<ListNode*> vecA;
-    vector<ListNode*> vecB;
-    getListNodeVec(vecA,headA);
-    getListNodeVec(vecB,headB);
-    ListNode* result = NULL;
-    for(int i = vecA.size(),j = vecB.size();i >= 0 && j >= 0; ++i,++j){
-        if(vecA[i] == vecB[i]){
-            result = vecA[i];
-        } 
-        else{
-            break;
-        }
+    int lenA = getListLen(headA);
+    int lenB = getListLen(headB);
+    if(lenA < lenB){
+        swap(headA,headB);
     }
-    return result;
+    for(int i = 0;i < abs(lenA - lenB); ++i){
+        headA = headA->next; 
+    }
+    while(headA != headB){
+        headA = headA->next;
+        headB = headB->next;
+    }
+    return headA;
 }
 
 int main(int argc,char* argv[])
