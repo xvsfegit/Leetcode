@@ -8,6 +8,7 @@
 #include<iostream>
 #include<vector>
 #include<map>
+#include<algorithm>
 using namespace std;
 
 vector<int> twoSum_1(vector<int>& numbers,int target)
@@ -31,16 +32,19 @@ vector<int> twoSum_2(vector<int>& numbers,int target)
 {
     vector<int> result;
     map<int,int> valueMap;
-    int vecLen = result.size();
+    int vecLen = numbers.size();
     for(int i = 0;i < vecLen; ++i){
-        valueMap[numbers[i]] = i;
-    }
-    map<int,int>::iterator iter = valueMap.end();
-    for(int i = 0;i < vecLen; ++i){
-        
+        int remainValue = valueMap[target - numbers[i]];
+        if(remainValue){
+            result.push_back(remainValue);
+            result.push_back(i + 1);
+            break;
+        }
+        valueMap[numbers[i]] = i + 1;
     }
     return result;
 }
+
 
 
 int main(int argc,char* argv[])
@@ -50,7 +54,7 @@ int main(int argc,char* argv[])
     cout <<"Please input the target:";
     int target = 0;
     cin >> target;
-    vector<int> result = twoSum_1(numbers,target);
+    vector<int> result = twoSum_2(numbers,target);
     for(int i = 0;i < result.size(); ++i){
         cout << result[i] << " ";
     }
