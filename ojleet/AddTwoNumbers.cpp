@@ -7,6 +7,7 @@
 
 #include<iostream>
 #include<algorithm>
+#include<vector>
 #include<cmath>
 #include"ListNode.h"
 using namespace std;
@@ -21,6 +22,13 @@ public:
         }
         return len;
     }
+    void getL2Value(ListNode* head,vector<int>& NodeValue)
+    {
+        while(head){
+            NodeValue.push_back(head->val);
+            head = head->next;
+        }
+    }
     ListNode* addTwoNumbers(ListNode* l1,ListNode* l2)
     {
         int l1Len = getListLen(l1);
@@ -31,16 +39,15 @@ public:
         ListNode* start = l1;
         ListNode* end = NULL;
         int flag = 0;
-        while(l1 && l2){
-            int tmpValue = l1->val + l2->val + flag;
-            l1->val = tmpValue % 10;
-            flag = tmpValue / 10;
-            end = l1;
-            l1 = l1->next;
-            l2 = l2->next;
-        }
         while(l1){
-            int tmpValue = l1->val + flag;
+            int tmpValue = 0;
+            if(l2){
+                tmpValue = l1->val + l2->val + flag;
+                l2 = l2->next;
+            }
+            else{
+                tmpValue = l1->val + flag;
+            }
             l1->val = tmpValue % 10;
             flag = tmpValue / 10;
             end = l1;
