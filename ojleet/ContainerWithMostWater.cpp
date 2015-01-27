@@ -33,6 +33,9 @@ public:
         return maxValue;
     }
     /*will use o(n) complete it
+     *当从两边开始移动时，因为底边的长度是最大的，所以无论移动i,j底边都在减小
+     *而面积的大小取决于两个height的最小值，所以需要移动小的height去寻找下一个
+     *比当前大的面积。该算法虽然不会得到全部面积，但可以求的最大面积。
      */
     int maxArea_2(vector<int>& height)
     {
