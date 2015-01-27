@@ -12,6 +12,8 @@ using namespace std;
 
 class Solution{
 public:
+    /*complete with the o(n2)
+     */
     int maxArea_1(vector<int>& height)
     {
         int len = height.size();
@@ -30,9 +32,29 @@ public:
         }
         return maxValue;
     }
+    /*will use o(n) complete it
+     */
+    int maxArea_2(vector<int>& height)
+    {
+        int len = height.size();
+        int left = 0;
+        int right = len - 1;
+        int maxValue = 0;
+        while(left < right){
+            int h = min(height[left],height[right]);
+            maxValue = max(maxValue,(right - left) * h);
+            height[left] < height[right] ? ++left : --right;
+        }
+        return maxValue;
+    }
 };
 
 int main(int argc,char* argv[])
 {
+    int a[10] = {15,24,55,66,14,45,78,56,43,22};
+    vector<int> height(a,a + 10);
+    Solution testClass;
+    cout << testClass.maxArea_1(height) << endl;
+    cout << testClass.maxArea_2(height) << endl;
     return 0;
 }
