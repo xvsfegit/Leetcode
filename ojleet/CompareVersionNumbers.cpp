@@ -9,34 +9,34 @@
 #include<string>
 using namespace std;
 
+int strToInt(const char* beginPos,int len)
+{
+    string tmpStr(beginPos,len);
+    return atoi(tmpStr.c_str());
+}
+
+int compareInt(int a,int b){
+    if(a == b){
+        return 0;
+    }
+    else if(a > b){
+        return 1; 
+    }
+    else{
+        return -1;
+    }
+}
+
 
 int compareVersion(string version1,string version2)
 {
-    int flag = 0;
-    for(int i = 0,j = 0;i < version1.size() && j < version2.size();){
+    int i = 0;
+    int j = 0;
+    while(i < version1.size() && j < version2.size()){
         if(version1[i] != '.'){
             ++i;
         }
-        else{
-            flag = 1;
-        }
-        if(version2[j] != '.'){
-            ++j;
-        }
-        else{
-            flag += 1;
-        }
-        if(flag == 2){
-            if(i == j){
-
-            }
-            else if (i < j){
-                return -1;
-            }
-            else{
-                return 0;
-            }
-        }
+        
     }
     return -1;
 }
