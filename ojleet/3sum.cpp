@@ -8,6 +8,7 @@
 #include<iostream>
 #include<vector>
 #include<string>
+#include<climits>
 using namespace std;
 
 class Solution{
@@ -16,6 +17,10 @@ public:
     {
         vector<vector<int> > result;
         return result;
+    }
+    void twoSum(vector<int>& sortNum,int start,int target,vector<vector<int> >& res)
+    {
+        
     }
 };
 
