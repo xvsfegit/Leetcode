@@ -17,52 +17,34 @@ class Solution{
 public:
     int threeSumCloset(vector<int>& num,int target)
     {
-        sort(num.begin(),num.end());
         int numLen = num.size();
-        int minDis = INT_MAX;
-        int result = 0;
+        int result = num[0] + num[1] + num[2];
+        sort(num.begin(),num.end());
         for(int i = 0; i < numLen - 2; ++i){
-            if(i > 0 && num[i] == num[i - 1]){
-                continue;
-            }
-            if(num[i] == -100){
-                cout << "wtf" << endl;
-            }
-            int tmpNum = twoSum(num,i + 1,target - num[i]);
-            int tmpDis = abs(tmpNum + num[i] - target);
-            if(tmpDis){
-                if(tmpDis < minDis){
-                    minDis = tmpDis;
-                    result = tmpNum + num[i];  
+            int start = i + 1;
+            int tail = numLen - 1;
+            while(start < tail){
+                int sum = num[i] + num[start] + num[tail];
+                if(abs(result - target) > abs(sum - target)){
+                    result = sum;
                 }
-            }
-            else{
-                return target;
+                if(sum > target){
+                    --tail;
+                }
+                else if(sum < target){
+                    ++start;
+                }
+                else{
+                    ++start;
+                    --tail;
+                }
             }
         }
         return result;
     }
-    int twoSum(vector<int>& sortedNum,int start,int target)
-    {
-        int head = start;
-        int tail = sortedNum.size() - 1;
-        int tmpSum = 0;
-        while(head < tail){
-            tmpSum = sortedNum[head] + sortedNum[tail];
-            if(tmpSum < target){
-                ++head;
-            }
-            else if(tmpSum > target){
-                --tail;
-            }
-            else{
-                return tmpSum;
-            }
-        }
-        return tmpSum;
-
-    }
 };
+
+
 
 int main(int argc,char* argv[])
 {
