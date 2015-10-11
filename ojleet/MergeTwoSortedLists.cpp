@@ -20,6 +20,17 @@ public:
     ListNode* mergeTwoLists(ListNode* l1,ListNode* l2)
     {
         ListNode* result;
+        if(l1 && l2){
+            while(l1 && l2){
+
+            }
+        }
+        else if(l1){
+            return l1;   
+        }
+        else{
+            return l2;
+        }
         return result;
     }
 };
