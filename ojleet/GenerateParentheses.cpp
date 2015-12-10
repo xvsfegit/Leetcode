@@ -19,30 +19,35 @@ public:
         if(n == 0){
             return result;
         }
-        string tempString;
-        generateDeep(n,n,tempString,result);
-        for(int i;i < result.size(); ++i){
-            std::cout << result[i] << std::endl;
-        }
+        generateDeep(n,n,"",result);
         return result;
     }
-    void generateDeep(int leftNum,int rightNum,string& s,vector<string>& result)
+    void generateDeep(int leftNum,int rightNum,string s,vector<string>& result)
     {
         if(leftNum == 0 && rightNum == 0){
             result.push_back(s);
         }        
-        if(leftNum > 0){
-            generateDeep(leftNum - 1,rightNum,s.append("("),result);
-        }
-        if(rightNum > 0 && leftNum < rightNum){
-            generateDeep(leftNum,rightNum - 1,s.append(")"),result);
+        else{
+            if(leftNum > 0){
+                generateDeep(leftNum - 1,rightNum,s + '(' ,result);
+            }
+            if(rightNum > 0 && leftNum < rightNum){
+                generateDeep(leftNum,rightNum - 1,s + ')',result);
+            }       
         }
     }
 };
 
 int main(int argc,char* argv[])
 {
+    int n = 0;
+    cout << "The number you want input:";
+    cin >> n;
+    vector<string> result;
     Solution testClass;
-    testClass.generateParenthesis(2);
+    result = testClass.generateParenthesis(n);
+    for(int i = 0;i < result.size(); ++i){
+        std::cout << result[i] << std::endl;
+    }
     return 0;
 }
